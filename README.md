@@ -1,7 +1,5 @@
 # Reads Simulation wrapper
-This is a small wrapper script which will call upon dwgsim to create simulated data of a specified mixture ratio. 
-
-The script will output a .fastq file containing merged reads for all the specified contributors. It can also optionally call upon a shell script for mapping the .fastq file.
+This is a small wrapper script which will call upon dwgsim to create simulated data of a specified mixture ratio. The script will output a .fastq file containing merged reads for all the specified contributors. It can also optionally call upon a shell script for mapping the .fastq file.
 The output .bam file from mapping can then be used directly with the Microhaplotyper.jar file.
 
 It simulates mixtures by varying the coverage for mixture contributors. So if a 1:3 mixture is specified the wrapper will take a base coverage value of say 100 and then generate reads seperately for the two contributors at 1(100x) and 3(300x) coverage. After generating the reads for individual samples it will merge them to give a .fastq file which can be further used for mapping.
@@ -21,6 +19,7 @@ git submodule init
 git submodule update
 make
 sudo cp dwgsim /usr/bin/
+sudo chmod +x dwgsim
 ```
 #### Ubuntu 14.04
 ```bash
@@ -31,6 +30,7 @@ git submodule update
 sudo apt-get install libncurses5-dev
 make
 sudo cp dwgsim /usr/bin/
+sudo chmod +x dwgsim
 ```
 The commands are also included in the installation scripts for dwgsim at *scripts/dwgsim_install_script_mac.sh* and *scripts/dwgsim_install_script_ubuntu.sh*.
 If you have installed dwgsim at any other path than /usr/bin/dwgsim please update the path in the config.ini file for parameter *simulator_path*.
@@ -69,9 +69,6 @@ e.g. scriptDir=/home/user1/readSimulation
 ```bash
 python readSimulationWrapper.py -h
 ```
-
-
-
 * To generate a small mixture dataset with default set of options simply run
 ```bash
 python readSimulationWrapper.py
