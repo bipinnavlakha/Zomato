@@ -19,7 +19,7 @@ git submodule init
 git submodule update
 make
 sudo cp dwgsim /usr/bin/
-sudo chmod +x dwgsim
+sudo chmod +x /usr/bin/dwgsim
 ```
 #### Ubuntu 14.04
 ```bash
@@ -30,7 +30,7 @@ git submodule update
 sudo apt-get install libncurses5-dev
 make
 sudo cp dwgsim /usr/bin/
-sudo chmod +x dwgsim
+sudo chmod +x /usr/bin/dwgsim
 ```
 The commands are also included in the installation scripts for dwgsim at *scripts/dwgsim_install_script_mac.sh* and *scripts/dwgsim_install_script_ubuntu.sh*.
 If you have installed dwgsim at any other path than /usr/bin/dwgsim please update the path in the config.ini file for parameter *simulator_path*.
