@@ -67,6 +67,9 @@ e.g. scriptDir=/home/user1/readSimulation
 ```bash
 python readSimulationWrapper.py -h
 ```
+
+
+
 * To generate a small mixture dataset with default set of options simply run
 ```bash
 python readSimulationWrapper.py
