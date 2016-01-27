@@ -10,7 +10,7 @@ User can configure options as command line arguments or though a config file. Th
 
 ## Installing Prerequisites
 ### Installing dwgsim
-The simulation tool [dwgsim](https://github.com/nh13/DWGSIM) can be installed on Ubuntu and Mac in the following steps
+The simulation tool [dwgsim](https://github.com/nh13/DWGSIM) can be installed on Ubuntu and Mac by the following steps
 #### Mac
 ```bash
 git clone https://github.com/nh13/DWGSIM.git
@@ -80,7 +80,7 @@ You should have a .fastq file with the name **sim_reads_merged.fastq**. This is 
 python readSimulationWrapper.py -r 1:2:1
 ```
 
-* To map the reads and generate a bam file try(you can use the tmap_align.sh or bwa_alignsh scripts is the /scripts folder here. You should have tmap/(bwa,samtools) installed to run these scripts)
+* To map the reads and generate a bam file try(you can use the tmap_align.sh or bwa_alignsh scripts is the /scripts folder here. You should have tmap/bwa and samtools installed to run these scripts)
 ```bash
 python readSimulationWrapper.py -r 1:2:1 -a ./scripts/tmap_align.sh
 ```
@@ -130,6 +130,7 @@ A base prefix name for files generated for the current simulated dataset.
 The wrapper also uses a config.ini file to enable the user to change all the configurable options. However if you specify values on the commandline they will be considered by the wrapper over the config.ini values.
 
 Lets look at the values configurable in the config.ini
+
 - **[defaultFiles]**
   - **scriptDir** = The directory where the readSimulatorWrapper.py is located
   - **defaultReference** = The reference .fasta/fa file
@@ -137,7 +138,9 @@ Lets look at the values configurable in the config.ini
   - **defaultMutations** = The mutations csv file
   - **vcfTemplate** = This is the template used for vcf header. Unless required dont change this path
 
+
 - **[simulator]**
+
 This section is for dwgsim options. You can include any other options for dwgsim that you want or change the values of current options.
 The options are used the generate the dwgsim option commandline given by the parameter **sim_options**
 
@@ -146,12 +149,13 @@ If you want to add a parameter lets say rate of mutations you could add it as
 rateOfMutations = 0.1
 sim_options = -e %(base_error_rate)s -1 %(first_read_length)s ... -r %(rateOfMutations)s
 ```
-Thus the general syntax for additons is %(paramName)s
+Thus the general syntax for additions is %(paramName)s
 
 Some options like the coverage, reference file, bed file, vcf file are added in by the wrapper later.
 
+
 - **[global_options]**
-  - **base_coverage** = The base coverage for mixtures. If a contributor is 1x it will have this coverage. If 2x then coverage is 2*(base_coverage) value
+  - **base_coverage** = The base coverage for mixtures. If a contributor is 1x it will have this coverage. If 2x then coverage for it is 2*(base_coverage) value
   - **simulator_path** = Path for the dwgsim executable. Change it if dwgsim is not at /usr/bin/dwgsim
   - **default_mixture_ratio** = The default mixture ratio
 
@@ -163,7 +167,7 @@ The csv file has the following 5 columns
 1. **Chromosome** - The chromosome where the mutation should be placed
 2. **Position** - The position of the specified chromosome
 3. **Reference Allele** - The allele in the reference file at specified position
-4. **Alternate Allele** - The alternate alleles to be included in place of the reference. For multiple contributors seperate the alternate alleles by '/'. For keeping the allele same as reference keep it as '-'. For e.g. T/-/C indicates you want contributor 1 to have T, contributor 2 to have allele same as reference and contributor3 to have allele C.
+4. **Alternate Allele** - The alternate alleles to be included in place of the reference. For multiple contributors separate the alternate alleles by '/'. For keeping the allele same as reference keep it as '-'. For e.g. T/-/C indicates you want contributor 1 to have T, contributor 2 to have allele same as reference and contributor3 to have allele C.
 5. **Allele frequency** - The frequency of the alternate alleles. The possible values are [1,0.5,-]. 1 will indicate a Homozygous mutation, 0.5 will indicate heterozygous mutation and - will be ignored as alternate allele will be same as reference.
 
 You can specify values for multiple contributors in the csv file and use only part of them. i.e. you can specify alternate alleles as T/A/C but have the mixture ratio as 1:2 in which case values for one first two contributors will be considered.
@@ -197,7 +201,8 @@ python readSimulationWrapper.py -j trialjob
 ```
 
 ## End to end run with Microhaplotyper.jar
+The repository also includes a dataset which can be used for an end to end run. It uses the Human Microchondrial DNA as reference **(Default_Human_Mitochondira.fasta)**. It targets one region of 200 bp **(Default_Regions.bed)** which has 3 mutations that will be included in the generated reads **(Default_Mutations.csv)**. These files are referenced in the included config.ini file. The user can use the default settings with any mapping script **(bwa_align.sh/tmap_align.sh)** and generate a bam file. Then this bam file and included microhaplotype bed file **(Default_Microhaplotype.bed)** can be then used as inputs for the **Microhaplotyper.jar** file. Sample commands for one such end-to-end run are given below
 ```bash
 python readSimulationWrapper.py -a ./scripts/tmap_align.sh -j endtoend
-microhaplotyper.jar -bed ./defaults/Default_Microhaplotype.bed -bam endtoend.bam
+java -jar Microhaplotyper.jar -bed ./defaults/Default_Microhaplotype.bed -bam endtoend.bam
 ```
